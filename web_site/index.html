@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online demo">
+    <meta name="author" content="ARG/SGN/TUT">
+    <link rel="icon" href="assets/favicon.ico">
+
+    <title>Audio captioning Demo - ARG::TUT</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--link href="assets/css/bootstrap-player.css" rel="stylesheet"-->
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+
+    <link href="assets/css/jumbotron.css" rel="stylesheet">
+    
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <p class="navbar-text navbar-left">Audio Captioning On-line Demo</p>
+	 </div>
+	 
+	<div class="collapse navbar-collapse">
+	  <p class="navbar-text navbar-right">
+	    K. Drossos, 
+	    <a href="http://www.cs.tut.fi/~adavanne/" target="_blank" class="navbar-link">
+	      S. Adavanne
+	    </a>, 
+	    <a href="http://www.cs.tut.fi/~tuomasv" target="_blank" class="navbar-link">
+	      T. Virtanen
+	    </a> :: 
+	    <a href="http://arg.cs.tut.fi/" target="_blank" class="navbar-link">
+	      ARG
+	    </a>, 
+	    <a href="http://www.tut.fi/en/home" target="_blank" class="navbar-link">
+	      TUT
+	    </a>
+	  </p>
+	</div>
+      </div>
+    </nav>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Audio Captioning On-line Demo</h1>
+        <p class="text-muted">This page is an on-line demo of our recent research results on audio captioning.</p>
+	<p class="text-muted">Full presentation of results and method is in our paper entitled "<i>Automated Audio Captioning with Recurrent Neural Networks</i>", available <a href="https://arxiv.org/abs/1706.10006" target="_blank">from here</a>, and presented to the <a href="http://www.waspaa.com/" target="_blank">11<sup>th</sup> IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA), 2017</a>.</p>
+	
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+	<div class="col-md-12">
+	  <p class="text-justify">
+	    Below you can find three columns. In each column you can see an audio player with three textual descriptions (captions) beneath it. The three captions correspond to the sound that you can hear from the audio player and are: 
+	    <dl class="dl-horizontal">
+	      <dt><i>Predicted caption</i>:</dt><dd class="text-justify"><i>the exact predicted caption by our method. Maximum length of predicted caption is 10 words</i>.</dd>
+	      <dt>Processed caption:</dt><dd class="text-justify">a processed version of the <span class="text-muted">original caption</span> and the targeted output. The processing consisted of trimming the word length to maximum of 10 words, turn letters to small case, remove non-frequent words, remove punctuation, and remove words not apperaring in UK or USA english dictionaries (according to <a href="http://aspell.net/" target="blank">GNU Aspell Dictionaries</a>).</dd>
+	      <dt class="text-muted">Original caption:</dt><dd class="text-justify"><span class="text-muted">the original caption, as given in the metadata associated with each sound. Original captions were used only to create the</span> <b>Processed captions</b> <span class="text-muted text-justify">and are listed here only for reference. For better reading, <u>you must click on the "<b>Original caption:</b>" in order for it to appear</u>.</span></dd>
+	    </dl>
+	  
+	  <p class="text-justify">
+	    Columns correspond to categorization of the predicted captions according to the employed metrics. 
+	  
+	    <dl class="dl-horizontal">
+	      <dt class="text-success">The Good</dt><dd>Predicted captions in the first column have scored good in the metrics. This means that the words appearing in the <b><i>Predicted caption</i></b> are the same (or almost the same) and in the same order as the ones in the <b>Processed caption</b>.
+	      <dt class="text-warning">The (not so) Bad</dt><dd>Predicted captions in the second column do not have a good metric score, but describe adequatly the sound of the audio player. This means that the <b><i>Predicted caption</i></b> describes adequatly the sound but might not contain any word of those in the <b>Processed caption</b>.</dd>
+	      <dt class="text-danger">(and) The Ugly</dt><dd>Predicted captions in the third column they neither have a good metric score nor describe adeuatly the sound of the audio player. 
+	    </dl>
+	  
+	  </p>
+	  <p class="text-justify">
+	    All sounds and original descriptions are drawn from the <b><a href="http://www.prosoundeffects.com/" target="blank" style="color: black">ProSounds Effect Library</a></b>, available <a href="http://www.prosoundeffects.com/" target="blank">here</a>!
+	  </p>
+	  <p>
+	    Our method was tested over 2960 audio files with their associated captions. The result metrics for our method are: 
+	    
+	    <div class="table-responsive">
+	      <table class="table table-condensed table-hover">
+		<thead>
+		  <tr>
+		    <th>
+		      BLEU<sub>1</sub>
+		    </th>
+		    <th>
+		      BLEU<sub>2</sub>
+		    </th>
+		    <th>
+		      BLEU<sub>3</sub>
+		    </th>
+		    <th>
+		      BLEU<sub>4</sub>
+		    </th>
+		    <th>
+		      ROUGE<sub>L</sub>
+		    </th>
+		    <th>
+		      METEOR
+		    </th>
+		    <th>
+		      CIDEr
+		    </th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+		    <td>0.191 &plusmn;0.004</td>
+		    <td>0.129 &plusmn;0.003</td>
+		    <td>0.106 &plusmn;0.003</td>
+		    <td>0.094 &plusmn;0.003</td>
+		    <td>0.149 &plusmn;0.002</td>
+		    <td>0.092 &plusmn;0.002</td>
+		    <td>0.526 &plusmn;0.012</td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </div>
+	  </p>
+	</div>
+      </div>
+      
+      <!-- Audio columns start -->
+      
+      <hr>
+      
+      <div class="row">
+	
+	<!-- ================================================== -->
+	<!-- ================================================== -->
+	<!--            The good column starts                  -->
+	<!-- ================================================== -->
+	<!-- ================================================== -->
+	<div class="col-md-4 col-xs-4 bg-success">
+	  <h3>The Good</h3>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/PEMusic_BW.37981.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>music guitar distortion</i></dd>
+		    <dt>Processed caption:</dt><dd>music guitar rock distortion</dd>
+		    <dt class="text-muted" role="tab" id="headingG4" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG4" aria-expanded="true" aria-controls="collapseG4">
+			Original caption:
+		      </b>
+		      <dd id="collapseG4" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG4">
+			  Music, Guitar, Rock, Distortion
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/Water,Splash,Lunge 12.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>water splash fast</i></dd>
+		    <dt>Processed caption:</dt><dd>water splash 12</dd>
+		    <dt class="text-muted" role="tab" id="headingG2" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG2" aria-expanded="true" aria-controls="collapseG2">
+			Original caption:
+		      </b>
+		      <dd id="collapseG2" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG2">
+			  Water, Splash, Lunge 12
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/ClockBalliolOx.BBC.EC36Ue.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>college clock striking</i></dd>
+		    <dt>Processed caption:</dt><dd>college clock striking five</dd>
+		    <dt class="text-muted" role="tab" id="headingG3" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG3" aria-expanded="true" aria-controls="collapseG3">
+			Original caption:
+		      </b>
+		      <dd id="collapseG3" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG3">
+			  Balliol College clock striking five o'clock.
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/PETrailer_BW.1248.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>trailer dark 2</i></dd>
+		    <dt>Processed caption:</dt><dd>trailer dark feedback</dd>
+		    <dt class="text-muted" role="tab" id="headingG1" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG1" aria-expanded="true" aria-controls="collapseG1">
+			Original caption:
+		      </b>
+		      <dd id="collapseG1" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG1">
+			  Trailer, Dark, Feedback
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/MorseCode3_BW.50436.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>police radio signal</i></dd>
+		    <dt>Processed caption:</dt><dd>three radio signal</dd>
+		    <dt class="text-muted" role="tab" id="headingG5" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG5" aria-expanded="true" aria-controls="collapseG5">
+			Original caption:
+		      </b>
+		      <dd id="collapseG5" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG5">
+			  Morse Code, "Three", Radio, Weak Signal
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/VoiceClip_BW.4715.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>voice clip male police dispatch radio radio</i></dd>
+		    <dt>Processed caption:</dt><dd>voice clip male police dispatch radio</dd>
+		    <dt class="text-muted" role="tab" id="headingG6" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG6" aria-expanded="true" aria-controls="collapseG6">
+			Original caption:
+		      </b>
+		      <dd id="collapseG6" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG6">
+			  Voice Clip, Male, Police Dispatch Radio, "I Need Transport"
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/BulletShellDrop_BW.54733.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>bullet shell drop cement surface</i></dd>
+		    <dt>Processed caption:</dt><dd>bullet shell 45 caliber drop cement surface</dd>
+		    <dt class="text-muted" role="tab" id="headingG7" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG7" aria-expanded="true" aria-controls="collapseG7">
+			Original caption:
+		      </b>
+		      <dd id="collapseG7" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG7">
+			  Bullet Shell, .45 Caliber, Drop, Cement Surface
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/Impacts_PROCESSED_286.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>impact hit heavy hard metal</i></dd>
+		    <dt>Processed caption:</dt><dd>impact hit heavy hard metal debris</dd>
+		    <dt class="text-muted" role="tab" id="headingG8" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG8" aria-expanded="true" aria-controls="collapseG8">
+			Original caption:
+		      </b>
+		      <dd id="collapseG8" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG8">
+			  Impact, Hit, Heavy, Hard, Metal, Debris
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/AmbCity_BW.81.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>ambience city region station</i></dd>
+		    <dt>Processed caption:</dt><dd>ambience city traffic</dd>
+		    <dt class="text-muted" role="tab" id="headingG9" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG9" aria-expanded="true" aria-controls="collapseG9">
+			Original caption:
+		      </b>
+		      <dd id="collapseG9" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG9">
+			  Ambience, City, Traffic, Europe
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/GunshotPistol_BW.57302.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl>
+		    <dt><i>Predicted caption</i>:</dt><dd><i>gunshot revolver single shot 44 distant perspective microphone microphone</i></dd>
+		    <dt>Processed caption:</dt><dd>gunshot pistol springfield single shot caliber distant perspective exterior microphone</dd>
+		    <dt class="text-muted" role="tab" id="headingG10" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseG10" aria-expanded="true" aria-controls="collapseG10">
+			Original caption:
+		      </b>
+		      <dd id="collapseG10" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingG10">
+			  Gunshot, Pistol, Springfield XDM40, Single Shot, .40 Caliber, Distant Perspective, Exterior, Microphone Towards Down Range
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	</div><!-- The Good column ends-->
+	
+	<!-- ================================================== -->
+	<!-- ================================================== -->
+	<!--            The bad column starts                  -->
+	<!-- ================================================== -->
+	<!-- ================================================== -->
+	<div class="col-md-4 col-xs-4 bg-warning">
+	  <h3>The <small>(not so)</small> Bad</h3>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/BOING_CARTOON_15_CS.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>chime musical</i></dd>
+		    <dt>Processed caption:</dt><dd>cartoon</dd>
+		    <dt class="text-muted" role="tab" id="headingB2" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB2" aria-expanded="true" aria-controls="collapseB2">
+			Original caption:
+		      </b>
+		      <dd id="collapseB2" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB2">
+			 boing cartoon 15
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/ChatterInterior.BBC.EC63H.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>crowd general with speech</i></dd>
+		    <dt>Processed caption:</dt><dd>in hall mixed chatter quiet people</dd>
+		    <dt class="text-muted" role="tab" id="headingB3" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB3" aria-expanded="true" aria-controls="collapseB3">
+			Original caption:
+		      </b>
+		      <dd id="collapseB3" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB3">
+			 Audience in hall, mixed chatter, fairly quiet. (30 people)
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/CreekFlow_BW.53736.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>water stream</i></dd>
+		    <dt>Processed caption:</dt><dd>loop</dd>
+		    <dt class="text-muted" role="tab" id="headingB1" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB1" aria-expanded="true" aria-controls="collapseB1">
+			Original caption:
+		      </b>
+		      <dd id="collapseB1" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB1">
+			  Creek Flow, Loop
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/ZombieCreatureBreathe_BW.13372.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>monster growl</i></dd>
+		    <dt>Processed caption:</dt><dd>zombie creature heavy monster</dd>
+		    <dt class="text-muted" role="tab" id="headingB4" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB4" aria-expanded="true" aria-controls="collapseB4">
+			Original caption:
+		      </b>
+		      <dd id="collapseB4" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB4">
+			  Zombie Creature Breathe, Heavy, Monster, Creature
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/SuctionCup_BW.3903.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>bullet wood empty</i></dd>
+		    <dt>Processed caption:</dt><dd>hand</dd>
+		    <dt class="text-muted" role="tab" id="headingB5" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB5" aria-expanded="true" aria-controls="collapseB5">
+			Original caption:
+		      </b>
+		      <dd id="collapseB5" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB5">
+			  Suction Cup, Hand
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/stone_drag_01.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>monster alien</i></dd>
+		    <dt>Processed caption:</dt><dd>door</dd>
+		    <dt class="text-muted" role="tab" id="headingB6" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB6" aria-expanded="true" aria-controls="collapseB6">
+			Original caption:
+		      </b>
+		      <dd id="collapseB6" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB6">
+			  stone, drag, stone door, manhole, dragging
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/haunted_house_02_loop.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>industrial ambience room</i></dd>
+		    <dt>Processed caption:</dt><dd>house monster</dd>
+		    <dt class="text-muted" role="tab" id="headingB7" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB7" aria-expanded="true" aria-controls="collapseB7">
+			Original caption:
+		      </b>
+		      <dd id="collapseB7" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB7">
+			  haunted, house, Halloween, spooky, ghost, ghosts, scary, fright, haunt, spook, fear, monster, monsters
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/RockDrop_BW.60536.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>body fall crack hit roll</i></dd>
+		    <dt>Processed caption:</dt><dd>rock drop forest heavy</dd>
+		    <dt class="text-muted" role="tab" id="headingB8" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB8" aria-expanded="true" aria-controls="collapseB8">
+			Original caption:
+		      </b>
+		      <dd id="collapseB8" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB8">
+			  Rock Drop, Forest, Heavy
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/Excavators.BBC.ECD131b.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>on motor</i></dd>
+		    <dt>Processed caption:</dt><dd>and</dd>
+		    <dt class="text-muted" role="tab" id="headingB9" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB9" aria-expanded="true" aria-controls="collapseB9">
+			Original caption:
+		      </b>
+		      <dd id="collapseB9" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB9">
+			  JCB excavator levelling and excavating.
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/PECrescendo_BW.62995.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>power</i></dd>
+		    <dt>Processed caption:</dt><dd>crescendo</dd>
+		    <dt class="text-muted" role="tab" id="headingB10" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseB10" aria-expanded="true" aria-controls="collapseB10">
+			Original caption:
+		      </b>
+		      <dd id="collapseB10" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingB10">
+			  Crescendo
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	</div><!-- The bad column ends-->
+	
+	<!-- ================================================== -->
+	<!-- ================================================== -->
+	<!--            The ugly column starts                  -->
+	<!-- ================================================== -->
+	<!-- ================================================== -->
+	<div class="col-md-4 col-xs-4 bg-danger">
+	  <h3><small>(and)</small> The Ugly</h3>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/ShipsFerries.BBC.EC3S2c.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>open doors</i></dd>
+		    <dt>Processed caption:</dt><dd>siren</dd>
+		    <dt class="text-muted" role="tab" id="headingU1" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU1" aria-expanded="true" aria-controls="collapseU1">
+			Original caption:
+		      </b>
+		      <dd id="collapseU1" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU1">
+			 Ferry: CrossChannel, `Dover', bridge, siren sounded.
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/TypewriterReturn_BW.50870.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>debris car break</i></dd>
+		    <dt>Processed caption:</dt><dd>typewriter bell</dd>
+		    <dt class="text-muted" role="tab" id="headingU2" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU2" aria-expanded="true" aria-controls="collapseU2">
+			Original caption:
+		      </b>
+		      <dd id="collapseU2" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU2">
+			 Typewriter Return, Bell
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/PEWhoosh_BW.37223.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>girl horror</i></dd>
+		    <dt>Processed caption:</dt><dd>musical</dd>
+		    <dt class="text-muted" role="tab" id="headingU3" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU3" aria-expanded="true" aria-controls="collapseU3">
+			Original caption:
+		      </b>
+		      <dd id="collapseU3" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU3">
+			 Whooshes, Musical
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/PlasticBagDrag_BW.9716.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>wood shake</i></dd>
+		    <dt>Processed caption:</dt><dd>plastic bag carpet surface metal</dd>
+		    <dt class="text-muted" role="tab" id="headingU4" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU4" aria-expanded="true" aria-controls="collapseU4">
+			Original caption:
+		      </b>
+		      <dd id="collapseU4" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU4">
+			 Plastic Bag Drag, Carpet Surface, Metal Objects
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/PEWhoosh_BW.27404.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>car door slide central wood slow</i></dd>
+		    <dt>Processed caption:</dt><dd>distortion</dd>
+		    <dt class="text-muted" role="tab" id="headingU5" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU5" aria-expanded="true" aria-controls="collapseU5">
+			Original caption:
+		      </b>
+		      <dd id="collapseU5" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU5">
+			 Whooshes, Distortion
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/FireEngine.BBC.EC47La.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>new chimes clock and</i></dd>
+		    <dt>Processed caption:</dt><dd>fire engine with horn</dd>
+		    <dt class="text-muted" role="tab" id="headingU6" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU6" aria-expanded="true" aria-controls="collapseU6">
+			Original caption:
+		      </b>
+		      <dd id="collapseU6" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU6">
+			 Fire engine departs with horn
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/crows_multiple_caw_04.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>laugh clip</i></dd>
+		    <dt>Processed caption:</dt><dd>animals birds crow bird</dd>
+		    <dt class="text-muted" role="tab" id="headingU7" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU7" aria-expanded="true" aria-controls="collapseU7">
+			Original caption:
+		      </b>
+		      <dd id="collapseU7" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU7">
+			 Animals, Birds, Crow, Caw, Bird
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/WanderingAlbatros9048.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>flying horses walk voice grass loud</i></dd>
+		    <dt>Processed caption:</dt><dd>cu from being by adult food at and bird island</dd>
+		    <dt class="text-muted" role="tab" id="headingU8" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU8" aria-expanded="true" aria-controls="collapseU8">
+			Original caption:
+		      </b>
+		      <dd id="collapseU8" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU8">
+			 Wandering Albatross. CU frenetic bill tapping from chick being fed by adult. Food transfer at 2m25s and 3m28s. Top Meadows, Bird Island
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/CAT_MEOW_17_CS.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>beeps start up system</i></dd>
+		    <dt>Processed caption:</dt><dd>cat</dd>
+		    <dt class="text-muted" role="tab" id="headingU9" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU9" aria-expanded="true" aria-controls="collapseU9">
+			Original caption:
+		      </b>
+		      <dd id="collapseU9" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU9">
+			 cat meow 17
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-xs-12 col-md-12">
+	      <div class="panel panel-default">
+		<div class="panel-heading">
+		  <audio controls>
+		    <source src="assets/media/audio/TrainsElectric.BBC.EC144Ca.mp3" type="audio/mpeg">
+		    Your browser does not support the audio element.
+		  </audio> 
+		</div>
+		<div class="panel-body">
+		  <dl id="accordion" role="tablist" aria-multiselectable="false">
+		    <dt><i>Predicted caption</i>:</dt><dd><i>church atmosphere species low</i></dd>
+		    <dt>Processed caption:</dt><dd>interior whistle moves off and speed</dd>
+		    <dt class="text-muted" role="tab" id="headingU10" >
+		      <b role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseU10" aria-expanded="true" aria-controls="collapseU10">
+			Original caption:
+		      </b>
+		      <dd id="collapseU10" class="panel-collapse collapse text-muted" role="tabpanel" aria-labelledby="headingU10">
+			 Interior, guard's whistle, moves off and gathers speed.
+		      </dd>
+		    </dt>
+		  </dl>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	</div><!-- The ugly column ends-->
+	  
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>K. Drossos, <a href="http://www.cs.tut.fi/~adavanne/" target="_blank">S. Adavanne</a>, and <a href="http://www.cs.tut.fi/~tuomasv" target="_blank">T. Virtanen</a></p>
+        <p><a href="http://arg.cs.tut.fi/" target="_blank">Audio Research Group</a>, <a href="http://www.tut.fi/en/home" target="_blank">Tampere University of Technology</a></p>
+      </footer>
+    </div> <!-- /container -->
+
+
+    <!-- ================================================== -->
+    <!-- ================================================== -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="assets/js/bootstrap-player.js"></script>
+  </body>
+</html>
+
