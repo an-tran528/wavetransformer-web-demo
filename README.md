@@ -1,2 +1,1 @@
-# audiocaptioning-web
-website for Audio captioning
+# WaveTransformer web demo
